@@ -1,4 +1,3 @@
-import mwoauth
 from flask import Flask, jsonify, redirect, request
 from flask import session as flask_session
 from flask import url_for
