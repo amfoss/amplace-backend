@@ -5,28 +5,24 @@ GET http://localhost:5000/api/get_user_details
 POST http://localhost:5000/api/update_pixel
 Content-Type: application/json
 
-{
+{ "user" : "test_user",
   "pixel_list": [
     {
-      "user": "test_user_1",
       "X": 10,
       "Y": 15,
       "hex-code": "#ff5733"
     },
     {
-      "user": "test_user_2",
       "X": 12,
       "Y": 18,
       "hex-code": "#33c5ff"
     },
     {
-      "user": "test_user_3",
       "X": 10,
       "Y": 15,
       "hex-code": "#123456"
     },
     {
-      "user": "test_user_3",
       "X": 9,
       "Y": 15,
       "hex-code": "#123456"

@@ -29,11 +29,13 @@ def update_pixel():
             data = request.json
             session = Session()
             pixel_list = data["pixel_list"]
+            username = data["user"]
+
             for pixel_data in pixel_list:
                 
-                user = session.query(User).filter_by(username=pixel_data["user"]).first()
+                user = session.query(User).filter_by(username=username).first()
                 if not user:
-                    user = User(username=pixel_data["user"])
+                    user = User(username=username)
                     session.add(user)
                     session.commit()  
                 
