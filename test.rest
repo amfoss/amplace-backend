@@ -1,0 +1,29 @@
+### Test updating pixels (create or update)
+POST http://localhost:5000/api/update_pixel
+Content-Type: application/json
+
+{
+  "pixel_list": [
+    {
+      "user": "test_user_1",
+      "X": 10,
+      "Y": 15,
+      "hex-code": "#ff5733"
+    },
+    {
+      "user": "test_user_2",
+      "X": 12,
+      "Y": 18,
+      "hex-code": "#33c5ff"
+    },
+    {
+      "user": "test_user_1",
+      "X": 10,
+      "Y": 15,
+      "hex-code": "#123456"
+    }
+  ]
+}
+
+### Test getting pixel details (not yet implemented)
+GET http://localhost:5000/api/get_pixel

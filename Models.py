@@ -19,7 +19,7 @@ from config import config, curr_env
 engine = create_engine(config["SQL_URI"])
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
-DB_URL = "" if curr_env == "production" else "localhost"
+
 
 @dataclass
 class Pixel(Base):
@@ -27,7 +27,18 @@ class Pixel(Base):
     pid = Column(Integer, primary_key=True, autoincrement=True)
     x: int = Column(SmallInteger, default=None)
     y: int = Column(SmallInteger, default=None)
-    user: str = Column(String(200), default=None)
-    color_hex: str = Column(String(30), default=" #ffffff")
+    color_hex: str = Column(String(30), default="#ffffff")
+    user_id: str = Column(String(50), ForeignKey("user.username"), nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user = relationship("User", back_populates="pixels")
 
-Base.metadata.create_all(engine) 
+@dataclass
+class User(Base):
+    __tablename__ = "user"
+    username: str = Column(String(50), primary_key=True)
+    count: int = Column(Integer, default=0)
+
+    pixels = relationship("Pixel", back_populates="user")
+
+Base.metadata.create_all(engine)
+
