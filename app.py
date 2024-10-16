@@ -8,13 +8,17 @@ app.secret_key = config["APP_SECRET_KEY"]
 
 def check_cooldown(pixel):
     session = Session()
-    existing_pixel = Session.query(Pixel).filter_by(x=pixel["X"], y=pixel["Y"]).order_by(Pixel.updated_at.desc()).first()
+    try:
+        existing_pixel = session.query(Pixel).filter_by(x=pixel["X"], y=pixel["Y"]).order_by(Pixel.updated_at.desc()).first()
 
-    if existing_pixel:
-        last_updated_time = existing_pixel.updated_at
-        if last_updated_time > datetime.utcnow() - timedelta(minutes=5):
-            return False
-    return True
+        if existing_pixel:
+            last_updated_time = existing_pixel.updated_at
+            if last_updated_time > datetime.utcnow() - timedelta(minutes=5):
+                print(f"{pixel} has a cooldown rn")
+                return False
+        return True
+    finally:
+        session.close()
 
 @app.route("/api/update_pixel", methods=['POST'])
 def update_pixel():
