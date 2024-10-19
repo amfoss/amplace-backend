@@ -2,8 +2,12 @@ from flask import Flask, jsonify, request
 from Models import Session, Pixel, User
 from config import config
 from datetime import datetime, timedelta
-
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
 app.secret_key = config["APP_SECRET_KEY"]
 
 def check_cooldown(pixel):
@@ -22,6 +26,7 @@ def check_cooldown(pixel):
         return flag
 
 @app.route("/api/update_pixel", methods=['POST'])
+@cross_origin()
 def update_pixel():
     if request.method == "POST":
         try:
@@ -120,6 +125,34 @@ def get_user_details():
 
         except Exception as e:
             return jsonify({"success": False, "message": str(e)}), 404
+
+        finally:
+            session.close()
+
+@app.route("/api/delete_pixel", methods=['DELETE'])
+def delete_pixel():
+    if request.method == "DELETE":
+        try:
+            data = request.json
+            session = Session()
+            x = data.get("X")
+            y = data.get("Y")
+            if x is None or y is None:
+                return jsonify({"success": False, "message": "X and Y coordinates are required"}), 400
+
+            pixel = session.query(Pixel).filter_by(x=x, y=y).first()
+
+            if not pixel:
+                return jsonify({"success": False, "message": "Pixel not found"}), 404
+
+            session.delete(pixel)
+            session.commit()
+
+            return jsonify({"success": True, "message": "Pixel deleted successfully"}), 200
+
+        except Exception as e:
+            session.rollback()
+            return jsonify({"success": False, "message": str(e)}), 500
 
         finally:
             session.close()

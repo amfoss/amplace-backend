@@ -1,3 +1,11 @@
+#test delte pixel
+DELETE http://localhost:5000/api/delete_pixel
+Content-Type: application/json
+
+{ "X":9,
+  "Y":15
+}
+
 ## Test the get user details
 GET http://localhost:5000/api/get_user_details
 
@@ -30,7 +38,6 @@ Content-Type: application/json
   ]
 }
 
-### Test getting pixel details 
+# ### Test getting pixel details 
 GET http://localhost:5000/api/get_pixel
-
 
