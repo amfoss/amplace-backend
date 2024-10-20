@@ -36,6 +36,9 @@ def update_pixel():
             pixel_list = data["pixel_list"]
             username = data["user"]
 
+            if len(pixel_list) > 5:
+                return jsonify({"success":True, "message": "You cannot update more than 5 pixels at once!"}), 200
+
             for pixel_data in pixel_list:
                 
                 user = session.query(User).filter_by(username=username).first()
