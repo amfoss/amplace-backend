@@ -50,6 +50,7 @@ def update_pixel():
                     if check_cooldown(pixel_data):
                         existing_pixel.color_hex = pixel_data["hex-code"]
                         existing_pixel.updated_at = datetime.utcnow()
+                        existing_pixel.user = user
                         user.count += 1
                         session.add(user)
                     else:
