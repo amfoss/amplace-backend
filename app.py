@@ -18,7 +18,7 @@ def check_cooldown(pixel):
 
         if existing_pixel:
             last_updated_time = existing_pixel.updated_at
-            if last_updated_time > datetime.utcnow() - timedelta(minutes=5):
+            if last_updated_time > datetime.utcnow() - timedelta(minutes=2):
                 flag = False
         
     finally:
@@ -50,6 +50,7 @@ def update_pixel():
                     if check_cooldown(pixel_data):
                         existing_pixel.color_hex = pixel_data["hex-code"]
                         existing_pixel.updated_at = datetime.utcnow()
+                        existing_pixel.user = user
                         user.count += 1
                         session.add(user)
                     else:
