@@ -18,7 +18,7 @@ def check_cooldown(pixel):
 
         if existing_pixel:
             last_updated_time = existing_pixel.updated_at
-            if last_updated_time > datetime.utcnow() - timedelta(minutes=5):
+            if last_updated_time > datetime.utcnow() - timedelta(minutes=2):
                 flag = False
         
     finally:
