@@ -72,7 +72,7 @@ def update_pixel():
             if len(cooldown_pixels) == 0:
                 return jsonify({"success": True, "message" : "All pixels updated none blocked by a cooldown"}), 200
             elif len(cooldown_pixels) == len(pixel_list):
-                return jsonify({"success" : True, "message": "All the pixels you tried to update have a cooldown try again in 5 min"}), 200
+                return jsonify({"success" : True, "message": "All the pixels you tried to update have a cooldown try again in 2 min"}), 200
             else:
                 return jsonify({"success" : True, "message" : f" the following pixels that you tried to update have a cooldown {cooldown_pixels}"}), 200
 
